@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="director">
+            <h2><span>Director</span> {{ director.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Alias</span></dt>
+                <dd>
+                    <span>{{ director.alias }}</span>
+                </dd>
+                <dt><span>Person</span></dt>
+                <dd>
+                    <div *ngIf="director.person">
+                        <a [routerLink]="['/person', director.person?.id, 'view']">{{ director.person?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Film</span></dt>
+                <dd>
+                    <div *ngIf="director.film">
+                        <a [routerLink]="['/film', director.film?.id, 'view']">{{ director.film?.title }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/director', director.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

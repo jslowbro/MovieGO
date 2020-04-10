@@ -1,0 +1,73 @@
+<div>
+    <h2 id="page-heading">
+        <span>Directors</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-director" [routerLink]="['/director/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Director
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="directors?.length === 0">
+        <span>No directors found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="directors?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Alias</span></th>
+                    <th scope="col" ><span>Person</span></th>
+                    <th scope="col" ><span>Film</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let director of directors ;trackBy: trackId">
+                    <td><a [routerLink]="['/director', director.id, 'view']">{{ director.id }}</a></td>
+                    <td>{{ director.alias }}</td>
+                    <td>
+                        <div *ngIf="director.person">
+                            <a [routerLink]="['/person', director.person?.id, 'view']" >{{ director.person?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="director.film">
+                            <a [routerLink]="['/film', director.film?.id, 'view']" >{{ director.film?.title }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/director', director.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/director', director.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(director)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

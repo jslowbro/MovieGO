@@ -1,0 +1,37 @@
+{
+    "name": "Director",
+    "fields": [
+        {
+            "fieldName": "alias",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "person",
+            "otherEntityRelationshipName": "director",
+            "relationshipName": "person",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "film",
+            "otherEntityRelationshipName": "director",
+            "relationshipName": "film",
+            "otherEntityField": "title"
+        }
+    ],
+    "changelogDate": "20200410191900",
+    "entityTableName": "director",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
