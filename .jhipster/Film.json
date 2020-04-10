@@ -1,0 +1,33 @@
+{
+    "name": "Film",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "personContainer",
+            "otherEntityRelationshipName": "film",
+            "relationshipName": "personContainer",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200410201200",
+    "entityTableName": "film",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
