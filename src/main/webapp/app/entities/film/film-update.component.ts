@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 
 import { IFilm, Film } from 'app/shared/model/film.model';
 import { FilmService } from './film.service';
-import { IPersonContainer } from 'app/shared/model/person-container.model';
-import { PersonContainerService } from 'app/entities/person-container/person-container.service';
 
 @Component({
   selector: 'jhi-film-update',
@@ -16,27 +14,18 @@ import { PersonContainerService } from 'app/entities/person-container/person-con
 })
 export class FilmUpdateComponent implements OnInit {
   isSaving = false;
-  personcontainers: IPersonContainer[] = [];
 
   editForm = this.fb.group({
     id: [],
     title: [],
-    description: [],
-    personContainer: []
+    description: []
   });
 
-  constructor(
-    protected filmService: FilmService,
-    protected personContainerService: PersonContainerService,
-    protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
-  ) {}
+  constructor(protected filmService: FilmService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ film }) => {
       this.updateForm(film);
-
-      this.personContainerService.query().subscribe((res: HttpResponse<IPersonContainer[]>) => (this.personcontainers = res.body || []));
     });
   }
 
@@ -44,8 +33,7 @@ export class FilmUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: film.id,
       title: film.title,
-      description: film.description,
-      personContainer: film.personContainer
+      description: film.description
     });
   }
 
@@ -68,8 +56,7 @@ export class FilmUpdateComponent implements OnInit {
       ...new Film(),
       id: this.editForm.get(['id'])!.value,
       title: this.editForm.get(['title'])!.value,
-      description: this.editForm.get(['description'])!.value,
-      personContainer: this.editForm.get(['personContainer'])!.value
+      description: this.editForm.get(['description'])!.value
     };
   }
 
@@ -87,9 +74,5 @@ export class FilmUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
-  }
-
-  trackById(index: number, item: IPersonContainer): any {
-    return item.id;
   }
 }

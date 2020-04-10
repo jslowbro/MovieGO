@@ -41,10 +41,6 @@ relationship ManyToOne {
 }
 
 relationship ManyToOne {
-	Film{personContainer(id)} to PersonContainer
-}
-
-relationship ManyToOne {
 	PersonContainer{person(id)} to Person,
     PersonContainer{film(id)} to Film
 }

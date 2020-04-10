@@ -16,12 +16,6 @@
                 <dd>
                     <span>{{ film.description }}</span>
                 </dd>
-                <dt><span>Person Container</span></dt>
-                <dd>
-                    <div *ngIf="film.personContainer">
-                        <a [routerLink]="['/person-container', film.personContainer?.id, 'view']">{{ film.personContainer?.id }}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"

@@ -1,6 +1,5 @@
 package com.janchabik.moviego.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -28,10 +27,6 @@ public class Film implements Serializable {
 
     @Column(name = "description")
     private String description;
-
-    @ManyToOne
-    @JsonIgnoreProperties("films")
-    private PersonContainer personContainer;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -66,19 +61,6 @@ public class Film implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public PersonContainer getPersonContainer() {
-        return personContainer;
-    }
-
-    public Film personContainer(PersonContainer personContainer) {
-        this.personContainer = personContainer;
-        return this;
-    }
-
-    public void setPersonContainer(PersonContainer personContainer) {
-        this.personContainer = personContainer;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

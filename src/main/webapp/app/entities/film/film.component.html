@@ -25,7 +25,6 @@
                     <th scope="col" ><span>ID</span></th>
                     <th scope="col" ><span>Title</span></th>
                     <th scope="col" ><span>Description</span></th>
-                    <th scope="col" ><span>Person Container</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -34,11 +33,6 @@
                     <td><a [routerLink]="['/film', film.id, 'view']">{{ film.id }}</a></td>
                     <td>{{ film.title }}</td>
                     <td>{{ film.description }}</td>
-                    <td>
-                        <div *ngIf="film.personContainer">
-                            <a [routerLink]="['/person-container', film.personContainer?.id, 'view']" >{{ film.personContainer?.id }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

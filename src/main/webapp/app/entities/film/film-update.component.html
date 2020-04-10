@@ -22,14 +22,6 @@
                     <input type="text" class="form-control" name="description" id="field_description"
                            formControlName="description"/>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_personContainer">Person Container</label>
-                    <select class="form-control" id="field_personContainer" name="personContainer" formControlName="personContainer">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="personContainerOption.id === editForm.get('personContainer')!.value?.id ? editForm.get('personContainer')!.value : personContainerOption" *ngFor="let personContainerOption of personcontainers; trackBy: trackById">{{ personContainerOption.id }}</option>
-                    </select>
-                </div>
             </div>
 
             <div>

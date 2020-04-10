@@ -10,15 +10,7 @@
             "fieldType": "String"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "personContainer",
-            "otherEntityRelationshipName": "film",
-            "relationshipName": "personContainer",
-            "otherEntityField": "id"
-        }
-    ],
+    "relationships": [],
     "changelogDate": "20200410201200",
     "entityTableName": "film",
     "dto": "no",
