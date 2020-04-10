@@ -40,6 +40,12 @@ public class CacheConfiguration {
             createCache(cm, com.janchabik.moviego.domain.User.class.getName());
             createCache(cm, com.janchabik.moviego.domain.Authority.class.getName());
             createCache(cm, com.janchabik.moviego.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.janchabik.moviego.domain.Person.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.PersonContainer.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Comment.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Review.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Rating.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Film.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
