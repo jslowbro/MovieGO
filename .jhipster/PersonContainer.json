@@ -1,0 +1,38 @@
+{
+    "name": "PersonContainer",
+    "fields": [
+        {
+            "fieldName": "role",
+            "fieldType": "Role",
+            "fieldValues": "ACTOR,DIRECTOR,PRODUCER"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "person",
+            "otherEntityRelationshipName": "personContainer",
+            "relationshipName": "person",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "film",
+            "otherEntityRelationshipName": "personcontainer",
+            "relationshipName": "film",
+            "otherEntityField": "title",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200410195700",
+    "entityTableName": "person_container",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
