@@ -35,6 +35,30 @@ import { RouterModule } from '@angular/router';
       {
         path: 'job-history',
         loadChildren: () => import('./job-history/job-history.module').then(m => m.MovieGoJobHistoryModule)
+      },
+      {
+        path: 'person',
+        loadChildren: () => import('./person/person.module').then(m => m.MovieGoPersonModule)
+      },
+      {
+        path: 'comment',
+        loadChildren: () => import('./comment/comment.module').then(m => m.MovieGoCommentModule)
+      },
+      {
+        path: 'review',
+        loadChildren: () => import('./review/review.module').then(m => m.MovieGoReviewModule)
+      },
+      {
+        path: 'rating',
+        loadChildren: () => import('./rating/rating.module').then(m => m.MovieGoRatingModule)
+      },
+      {
+        path: 'person-container',
+        loadChildren: () => import('./person-container/person-container.module').then(m => m.MovieGoPersonContainerModule)
+      },
+      {
+        path: 'film',
+        loadChildren: () => import('./film/film.module').then(m => m.MovieGoFilmModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

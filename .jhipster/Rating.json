@@ -1,0 +1,40 @@
+{
+    "name": "Rating",
+    "fields": [
+        {
+            "fieldName": "value",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "author",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "review",
+            "otherEntityRelationshipName": "rating",
+            "relationshipName": "review",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "film",
+            "otherEntityRelationshipName": "rating",
+            "relationshipName": "film",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200410174400",
+    "entityTableName": "rating",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

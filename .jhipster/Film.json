@@ -1,0 +1,46 @@
+{
+    "name": "Film",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "rating",
+            "otherEntityRelationshipName": "film",
+            "relationshipName": "rating"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "review",
+            "otherEntityRelationshipName": "film",
+            "relationshipName": "review"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "personContainer",
+            "otherEntityRelationshipName": "film",
+            "relationshipName": "personContainer",
+            "otherEntityField": "film2",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20200410174600",
+    "entityTableName": "film",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

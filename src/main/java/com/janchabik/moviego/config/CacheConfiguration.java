@@ -52,6 +52,19 @@ public class CacheConfiguration {
             createCache(cm, com.janchabik.moviego.domain.Job.class.getName());
             createCache(cm, com.janchabik.moviego.domain.Job.class.getName() + ".tasks");
             createCache(cm, com.janchabik.moviego.domain.JobHistory.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Person.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Person.class.getName() + ".personContainers");
+            createCache(cm, com.janchabik.moviego.domain.Comment.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Review.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Review.class.getName() + ".comments");
+            createCache(cm, com.janchabik.moviego.domain.Review.class.getName() + ".ratings");
+            createCache(cm, com.janchabik.moviego.domain.Rating.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.PersonContainer.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.PersonContainer.class.getName() + ".films");
+            createCache(cm, com.janchabik.moviego.domain.Film.class.getName());
+            createCache(cm, com.janchabik.moviego.domain.Film.class.getName() + ".ratings");
+            createCache(cm, com.janchabik.moviego.domain.Film.class.getName() + ".reviews");
+            createCache(cm, com.janchabik.moviego.domain.Film.class.getName() + ".personContainers");
             // jhipster-needle-ehcache-add-entry
         };
     }
