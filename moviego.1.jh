@@ -25,7 +25,8 @@ entity Rating {
 
 entity Film {
 	title String,
-	description String
+	description String,
+    releaseDate Instant
 }
 relationship ManyToOne {
 	Review{film(id)} to Film,
@@ -52,10 +53,10 @@ relationship ManyToOne {
 //paginate Job with pagination
 
 // Use Data Transfert Objects (DTO)
-// dto * with mapstruct
+dto * with mapstruct
 
 // Set service options to all except few
-//service all with serviceImpl
+service all with serviceImpl
 
 // Set an angular suffix
 // angularSuffix * with mySuffix
