@@ -25,17 +25,17 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_film">Film</label>
-                    <select class="form-control" id="field_film" name="film" formControlName="film">
+                    <select class="form-control" id="field_film" name="film" formControlName="filmId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="filmOption.id === editForm.get('film')!.value?.id ? editForm.get('film')!.value : filmOption" *ngFor="let filmOption of films; trackBy: trackById">{{ filmOption.id }}</option>
+                        <option [ngValue]="filmOption.id" *ngFor="let filmOption of films; trackBy: trackById">{{ filmOption.id }}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_user">User</label>
-                    <select class="form-control" id="field_user" name="user" formControlName="user">
+                    <select class="form-control" id="field_user" name="user" formControlName="userId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.login }}</option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.login }}</option>
                     </select>
                 </div>
             </div>

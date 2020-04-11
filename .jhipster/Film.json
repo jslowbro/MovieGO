@@ -8,14 +8,18 @@
         {
             "fieldName": "description",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "releaseDate",
+            "fieldType": "Instant"
         }
     ],
     "relationships": [],
     "changelogDate": "20200410202500",
     "entityTableName": "film",
-    "dto": "no",
+    "dto": "mapstruct",
     "pagination": "no",
-    "service": "no",
+    "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
     "readOnly": false,

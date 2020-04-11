@@ -4,6 +4,9 @@ import com.janchabik.moviego.MovieGoApp;
 import com.janchabik.moviego.config.TestSecurityConfiguration;
 import com.janchabik.moviego.domain.Rating;
 import com.janchabik.moviego.repository.RatingRepository;
+import com.janchabik.moviego.service.RatingService;
+import com.janchabik.moviego.service.dto.RatingDTO;
+import com.janchabik.moviego.service.mapper.RatingMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +40,12 @@ public class RatingResourceIT {
 
     @Autowired
     private RatingRepository ratingRepository;
+
+    @Autowired
+    private RatingMapper ratingMapper;
+
+    @Autowired
+    private RatingService ratingService;
 
     @Autowired
     private EntityManager em;
@@ -80,9 +89,10 @@ public class RatingResourceIT {
         int databaseSizeBeforeCreate = ratingRepository.findAll().size();
 
         // Create the Rating
+        RatingDTO ratingDTO = ratingMapper.toDto(rating);
         restRatingMockMvc.perform(post("/api/ratings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Rating in the database
@@ -99,11 +109,12 @@ public class RatingResourceIT {
 
         // Create the Rating with an existing ID
         rating.setId(1L);
+        RatingDTO ratingDTO = ratingMapper.toDto(rating);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restRatingMockMvc.perform(post("/api/ratings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Rating in the database
@@ -162,10 +173,11 @@ public class RatingResourceIT {
         em.detach(updatedRating);
         updatedRating
             .value(UPDATED_VALUE);
+        RatingDTO ratingDTO = ratingMapper.toDto(updatedRating);
 
         restRatingMockMvc.perform(put("/api/ratings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedRating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isOk());
 
         // Validate the Rating in the database
@@ -181,11 +193,12 @@ public class RatingResourceIT {
         int databaseSizeBeforeUpdate = ratingRepository.findAll().size();
 
         // Create the Rating
+        RatingDTO ratingDTO = ratingMapper.toDto(rating);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restRatingMockMvc.perform(put("/api/ratings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rating)))
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Rating in the database

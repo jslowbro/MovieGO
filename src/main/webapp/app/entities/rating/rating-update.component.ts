@@ -26,8 +26,8 @@ export class RatingUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     value: [],
-    film: [],
-    user: []
+    filmId: [],
+    userId: []
   });
 
   constructor(
@@ -52,8 +52,8 @@ export class RatingUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: rating.id,
       value: rating.value,
-      film: rating.film,
-      user: rating.user
+      filmId: rating.filmId,
+      userId: rating.userId
     });
   }
 
@@ -76,8 +76,8 @@ export class RatingUpdateComponent implements OnInit {
       ...new Rating(),
       id: this.editForm.get(['id'])!.value,
       value: this.editForm.get(['value'])!.value,
-      film: this.editForm.get(['film'])!.value,
-      user: this.editForm.get(['user'])!.value
+      filmId: this.editForm.get(['filmId'])!.value,
+      userId: this.editForm.get(['userId'])!.value
     };
   }
 

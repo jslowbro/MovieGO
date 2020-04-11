@@ -4,6 +4,9 @@ import com.janchabik.moviego.MovieGoApp;
 import com.janchabik.moviego.config.TestSecurityConfiguration;
 import com.janchabik.moviego.domain.Comment;
 import com.janchabik.moviego.repository.CommentRepository;
+import com.janchabik.moviego.service.CommentService;
+import com.janchabik.moviego.service.dto.CommentDTO;
+import com.janchabik.moviego.service.mapper.CommentMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +40,12 @@ public class CommentResourceIT {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private EntityManager em;
@@ -80,9 +89,10 @@ public class CommentResourceIT {
         int databaseSizeBeforeCreate = commentRepository.findAll().size();
 
         // Create the Comment
+        CommentDTO commentDTO = commentMapper.toDto(comment);
         restCommentMockMvc.perform(post("/api/comments").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(comment)))
+            .content(TestUtil.convertObjectToJsonBytes(commentDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Comment in the database
@@ -99,11 +109,12 @@ public class CommentResourceIT {
 
         // Create the Comment with an existing ID
         comment.setId(1L);
+        CommentDTO commentDTO = commentMapper.toDto(comment);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCommentMockMvc.perform(post("/api/comments").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(comment)))
+            .content(TestUtil.convertObjectToJsonBytes(commentDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Comment in the database
@@ -162,10 +173,11 @@ public class CommentResourceIT {
         em.detach(updatedComment);
         updatedComment
             .text(UPDATED_TEXT);
+        CommentDTO commentDTO = commentMapper.toDto(updatedComment);
 
         restCommentMockMvc.perform(put("/api/comments").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedComment)))
+            .content(TestUtil.convertObjectToJsonBytes(commentDTO)))
             .andExpect(status().isOk());
 
         // Validate the Comment in the database
@@ -181,11 +193,12 @@ public class CommentResourceIT {
         int databaseSizeBeforeUpdate = commentRepository.findAll().size();
 
         // Create the Comment
+        CommentDTO commentDTO = commentMapper.toDto(comment);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restCommentMockMvc.perform(put("/api/comments").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(comment)))
+            .content(TestUtil.convertObjectToJsonBytes(commentDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Comment in the database

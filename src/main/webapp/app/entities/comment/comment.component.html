@@ -34,12 +34,12 @@
                     <td><a [routerLink]="['/comment', comment.id, 'view']">{{ comment.id }}</a></td>
                     <td>{{ comment.text }}</td>
                     <td>
-                        <div *ngIf="comment.review">
-                            <a [routerLink]="['/review', comment.review?.id, 'view']" >{{ comment.review?.id }}</a>
+                        <div *ngIf="comment.reviewId">
+                            <a [routerLink]="['/review', comment.reviewId , 'view']" >{{ comment.reviewId }}</a>
                         </div>
                     </td>
                     <td>
-                        {{ comment.user?.login }}
+                        {{ comment.userLogin }}
                     </td>
                     <td class="text-right">
                         <div class="btn-group">

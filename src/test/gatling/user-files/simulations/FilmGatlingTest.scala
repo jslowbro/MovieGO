@@ -103,6 +103,7 @@ class FilmGatlingTest extends Simulation {
                 "id":null
                 , "title":"SAMPLE_TEXT"
                 , "description":"SAMPLE_TEXT"
+                , "releaseDate":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_film_url"))).exitHereIfFailed

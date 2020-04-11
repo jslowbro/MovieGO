@@ -4,6 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IFilm, Film } from 'app/shared/model/film.model';
 import { FilmService } from './film.service';
@@ -18,13 +20,19 @@ export class FilmUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     title: [],
-    description: []
+    description: [],
+    releaseDate: []
   });
 
   constructor(protected filmService: FilmService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ film }) => {
+      if (!film.id) {
+        const today = moment().startOf('day');
+        film.releaseDate = today;
+      }
+
       this.updateForm(film);
     });
   }
@@ -33,7 +41,8 @@ export class FilmUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: film.id,
       title: film.title,
-      description: film.description
+      description: film.description,
+      releaseDate: film.releaseDate ? film.releaseDate.format(DATE_TIME_FORMAT) : null
     });
   }
 
@@ -56,7 +65,10 @@ export class FilmUpdateComponent implements OnInit {
       ...new Film(),
       id: this.editForm.get(['id'])!.value,
       title: this.editForm.get(['title'])!.value,
-      description: this.editForm.get(['description'])!.value
+      description: this.editForm.get(['description'])!.value,
+      releaseDate: this.editForm.get(['releaseDate'])!.value
+        ? moment(this.editForm.get(['releaseDate'])!.value, DATE_TIME_FORMAT)
+        : undefined
     };
   }
 

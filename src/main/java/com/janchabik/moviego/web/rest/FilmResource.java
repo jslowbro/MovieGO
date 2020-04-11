@@ -1,8 +1,8 @@
 package com.janchabik.moviego.web.rest;
 
-import com.janchabik.moviego.domain.Film;
-import com.janchabik.moviego.repository.FilmRepository;
+import com.janchabik.moviego.service.FilmService;
 import com.janchabik.moviego.web.rest.errors.BadRequestAlertException;
+import com.janchabik.moviego.service.dto.FilmDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,7 +22,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class FilmResource {
 
     private final Logger log = LoggerFactory.getLogger(FilmResource.class);
@@ -33,26 +31,26 @@ public class FilmResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final FilmRepository filmRepository;
+    private final FilmService filmService;
 
-    public FilmResource(FilmRepository filmRepository) {
-        this.filmRepository = filmRepository;
+    public FilmResource(FilmService filmService) {
+        this.filmService = filmService;
     }
 
     /**
      * {@code POST  /films} : Create a new film.
      *
-     * @param film the film to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new film, or with status {@code 400 (Bad Request)} if the film has already an ID.
+     * @param filmDTO the filmDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new filmDTO, or with status {@code 400 (Bad Request)} if the film has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/films")
-    public ResponseEntity<Film> createFilm(@RequestBody Film film) throws URISyntaxException {
-        log.debug("REST request to save Film : {}", film);
-        if (film.getId() != null) {
+    public ResponseEntity<FilmDTO> createFilm(@RequestBody FilmDTO filmDTO) throws URISyntaxException {
+        log.debug("REST request to save Film : {}", filmDTO);
+        if (filmDTO.getId() != null) {
             throw new BadRequestAlertException("A new film cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Film result = filmRepository.save(film);
+        FilmDTO result = filmService.save(filmDTO);
         return ResponseEntity.created(new URI("/api/films/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -61,21 +59,21 @@ public class FilmResource {
     /**
      * {@code PUT  /films} : Updates an existing film.
      *
-     * @param film the film to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated film,
-     * or with status {@code 400 (Bad Request)} if the film is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the film couldn't be updated.
+     * @param filmDTO the filmDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated filmDTO,
+     * or with status {@code 400 (Bad Request)} if the filmDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the filmDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/films")
-    public ResponseEntity<Film> updateFilm(@RequestBody Film film) throws URISyntaxException {
-        log.debug("REST request to update Film : {}", film);
-        if (film.getId() == null) {
+    public ResponseEntity<FilmDTO> updateFilm(@RequestBody FilmDTO filmDTO) throws URISyntaxException {
+        log.debug("REST request to update Film : {}", filmDTO);
+        if (filmDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Film result = filmRepository.save(film);
+        FilmDTO result = filmService.save(filmDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, film.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, filmDTO.getId().toString()))
             .body(result);
     }
 
@@ -85,34 +83,34 @@ public class FilmResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of films in body.
      */
     @GetMapping("/films")
-    public List<Film> getAllFilms() {
+    public List<FilmDTO> getAllFilms() {
         log.debug("REST request to get all Films");
-        return filmRepository.findAll();
+        return filmService.findAll();
     }
 
     /**
      * {@code GET  /films/:id} : get the "id" film.
      *
-     * @param id the id of the film to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the film, or with status {@code 404 (Not Found)}.
+     * @param id the id of the filmDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the filmDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/films/{id}")
-    public ResponseEntity<Film> getFilm(@PathVariable Long id) {
+    public ResponseEntity<FilmDTO> getFilm(@PathVariable Long id) {
         log.debug("REST request to get Film : {}", id);
-        Optional<Film> film = filmRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(film);
+        Optional<FilmDTO> filmDTO = filmService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(filmDTO);
     }
 
     /**
      * {@code DELETE  /films/:id} : delete the "id" film.
      *
-     * @param id the id of the film to delete.
+     * @param id the id of the filmDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/films/{id}")
     public ResponseEntity<Void> deleteFilm(@PathVariable Long id) {
         log.debug("REST request to delete Film : {}", id);
-        filmRepository.deleteById(id);
+        filmService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

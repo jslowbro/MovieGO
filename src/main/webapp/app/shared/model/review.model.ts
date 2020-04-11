@@ -1,14 +1,19 @@
-import { IFilm } from 'app/shared/model/film.model';
-import { IUser } from 'app/core/user/user.model';
-
 export interface IReview {
   id?: number;
   text?: any;
   value?: number;
-  film?: IFilm;
-  user?: IUser;
+  filmId?: number;
+  userLogin?: string;
+  userId?: number;
 }
 
 export class Review implements IReview {
-  constructor(public id?: number, public text?: any, public value?: number, public film?: IFilm, public user?: IUser) {}
+  constructor(
+    public id?: number,
+    public text?: any,
+    public value?: number,
+    public filmId?: number,
+    public userLogin?: string,
+    public userId?: number
+  ) {}
 }

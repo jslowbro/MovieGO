@@ -26,8 +26,8 @@ export class PersonContainerUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     role: [],
-    person: [],
-    film: []
+    personId: [],
+    filmId: []
   });
 
   constructor(
@@ -52,8 +52,8 @@ export class PersonContainerUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: personContainer.id,
       role: personContainer.role,
-      person: personContainer.person,
-      film: personContainer.film
+      personId: personContainer.personId,
+      filmId: personContainer.filmId
     });
   }
 
@@ -76,8 +76,8 @@ export class PersonContainerUpdateComponent implements OnInit {
       ...new PersonContainer(),
       id: this.editForm.get(['id'])!.value,
       role: this.editForm.get(['role'])!.value,
-      person: this.editForm.get(['person'])!.value,
-      film: this.editForm.get(['film'])!.value
+      personId: this.editForm.get(['personId'])!.value,
+      filmId: this.editForm.get(['filmId'])!.value
     };
   }
 

@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.time.Instant;
 
 /**
  * A Film.
@@ -27,6 +28,9 @@ public class Film implements Serializable {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "release_date")
+    private Instant releaseDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -62,6 +66,19 @@ public class Film implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Instant getReleaseDate() {
+        return releaseDate;
+    }
+
+    public Film releaseDate(Instant releaseDate) {
+        this.releaseDate = releaseDate;
+        return this;
+    }
+
+    public void setReleaseDate(Instant releaseDate) {
+        this.releaseDate = releaseDate;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -86,6 +103,7 @@ public class Film implements Serializable {
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
             ", description='" + getDescription() + "'" +
+            ", releaseDate='" + getReleaseDate() + "'" +
             "}";
     }
 }
