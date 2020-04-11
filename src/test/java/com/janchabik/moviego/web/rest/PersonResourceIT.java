@@ -4,6 +4,9 @@ import com.janchabik.moviego.MovieGoApp;
 import com.janchabik.moviego.config.TestSecurityConfiguration;
 import com.janchabik.moviego.domain.Person;
 import com.janchabik.moviego.repository.PersonRepository;
+import com.janchabik.moviego.service.PersonService;
+import com.janchabik.moviego.service.dto.PersonDTO;
+import com.janchabik.moviego.service.mapper.PersonMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +46,12 @@ public class PersonResourceIT {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private PersonMapper personMapper;
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private EntityManager em;
@@ -90,9 +99,10 @@ public class PersonResourceIT {
         int databaseSizeBeforeCreate = personRepository.findAll().size();
 
         // Create the Person
+        PersonDTO personDTO = personMapper.toDto(person);
         restPersonMockMvc.perform(post("/api/people").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .content(TestUtil.convertObjectToJsonBytes(personDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Person in the database
@@ -111,11 +121,12 @@ public class PersonResourceIT {
 
         // Create the Person with an existing ID
         person.setId(1L);
+        PersonDTO personDTO = personMapper.toDto(person);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPersonMockMvc.perform(post("/api/people").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .content(TestUtil.convertObjectToJsonBytes(personDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Person in the database
@@ -180,10 +191,11 @@ public class PersonResourceIT {
             .name(UPDATED_NAME)
             .surname(UPDATED_SURNAME)
             .country(UPDATED_COUNTRY);
+        PersonDTO personDTO = personMapper.toDto(updatedPerson);
 
         restPersonMockMvc.perform(put("/api/people").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedPerson)))
+            .content(TestUtil.convertObjectToJsonBytes(personDTO)))
             .andExpect(status().isOk());
 
         // Validate the Person in the database
@@ -201,11 +213,12 @@ public class PersonResourceIT {
         int databaseSizeBeforeUpdate = personRepository.findAll().size();
 
         // Create the Person
+        PersonDTO personDTO = personMapper.toDto(person);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restPersonMockMvc.perform(put("/api/people").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(person)))
+            .content(TestUtil.convertObjectToJsonBytes(personDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Person in the database

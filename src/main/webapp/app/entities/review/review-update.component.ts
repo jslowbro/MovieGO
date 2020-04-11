@@ -29,8 +29,8 @@ export class ReviewUpdateComponent implements OnInit {
     id: [],
     text: [],
     value: [],
-    film: [],
-    user: []
+    filmId: [],
+    userId: []
   });
 
   constructor(
@@ -58,8 +58,8 @@ export class ReviewUpdateComponent implements OnInit {
       id: review.id,
       text: review.text,
       value: review.value,
-      film: review.film,
-      user: review.user
+      filmId: review.filmId,
+      userId: review.userId
     });
   }
 
@@ -99,8 +99,8 @@ export class ReviewUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       text: this.editForm.get(['text'])!.value,
       value: this.editForm.get(['value'])!.value,
-      film: this.editForm.get(['film'])!.value,
-      user: this.editForm.get(['user'])!.value
+      filmId: this.editForm.get(['filmId'])!.value,
+      userId: this.editForm.get(['userId'])!.value
     };
   }
 

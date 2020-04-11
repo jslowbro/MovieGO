@@ -25,6 +25,7 @@
                     <th scope="col" ><span>ID</span></th>
                     <th scope="col" ><span>Title</span></th>
                     <th scope="col" ><span>Description</span></th>
+                    <th scope="col" ><span>Release Date</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                     <td><a [routerLink]="['/film', film.id, 'view']">{{ film.id }}</a></td>
                     <td>{{ film.title }}</td>
                     <td>{{ film.description }}</td>
+                    <td>{{ film.releaseDate | date:'medium' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

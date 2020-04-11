@@ -4,6 +4,9 @@ import com.janchabik.moviego.MovieGoApp;
 import com.janchabik.moviego.config.TestSecurityConfiguration;
 import com.janchabik.moviego.domain.PersonContainer;
 import com.janchabik.moviego.repository.PersonContainerRepository;
+import com.janchabik.moviego.service.PersonContainerService;
+import com.janchabik.moviego.service.dto.PersonContainerDTO;
+import com.janchabik.moviego.service.mapper.PersonContainerMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +41,12 @@ public class PersonContainerResourceIT {
 
     @Autowired
     private PersonContainerRepository personContainerRepository;
+
+    @Autowired
+    private PersonContainerMapper personContainerMapper;
+
+    @Autowired
+    private PersonContainerService personContainerService;
 
     @Autowired
     private EntityManager em;
@@ -81,9 +90,10 @@ public class PersonContainerResourceIT {
         int databaseSizeBeforeCreate = personContainerRepository.findAll().size();
 
         // Create the PersonContainer
+        PersonContainerDTO personContainerDTO = personContainerMapper.toDto(personContainer);
         restPersonContainerMockMvc.perform(post("/api/person-containers").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(personContainer)))
+            .content(TestUtil.convertObjectToJsonBytes(personContainerDTO)))
             .andExpect(status().isCreated());
 
         // Validate the PersonContainer in the database
@@ -100,11 +110,12 @@ public class PersonContainerResourceIT {
 
         // Create the PersonContainer with an existing ID
         personContainer.setId(1L);
+        PersonContainerDTO personContainerDTO = personContainerMapper.toDto(personContainer);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restPersonContainerMockMvc.perform(post("/api/person-containers").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(personContainer)))
+            .content(TestUtil.convertObjectToJsonBytes(personContainerDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the PersonContainer in the database
@@ -163,10 +174,11 @@ public class PersonContainerResourceIT {
         em.detach(updatedPersonContainer);
         updatedPersonContainer
             .role(UPDATED_ROLE);
+        PersonContainerDTO personContainerDTO = personContainerMapper.toDto(updatedPersonContainer);
 
         restPersonContainerMockMvc.perform(put("/api/person-containers").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedPersonContainer)))
+            .content(TestUtil.convertObjectToJsonBytes(personContainerDTO)))
             .andExpect(status().isOk());
 
         // Validate the PersonContainer in the database
@@ -182,11 +194,12 @@ public class PersonContainerResourceIT {
         int databaseSizeBeforeUpdate = personContainerRepository.findAll().size();
 
         // Create the PersonContainer
+        PersonContainerDTO personContainerDTO = personContainerMapper.toDto(personContainer);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restPersonContainerMockMvc.perform(put("/api/person-containers").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(personContainer)))
+            .content(TestUtil.convertObjectToJsonBytes(personContainerDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the PersonContainer in the database

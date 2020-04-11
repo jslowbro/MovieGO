@@ -4,6 +4,9 @@ import com.janchabik.moviego.MovieGoApp;
 import com.janchabik.moviego.config.TestSecurityConfiguration;
 import com.janchabik.moviego.domain.Film;
 import com.janchabik.moviego.repository.FilmRepository;
+import com.janchabik.moviego.service.FilmService;
+import com.janchabik.moviego.service.dto.FilmDTO;
+import com.janchabik.moviego.service.mapper.FilmMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +18,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,8 +43,17 @@ public class FilmResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
+    private static final Instant DEFAULT_RELEASE_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_RELEASE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     @Autowired
     private FilmRepository filmRepository;
+
+    @Autowired
+    private FilmMapper filmMapper;
+
+    @Autowired
+    private FilmService filmService;
 
     @Autowired
     private EntityManager em;
@@ -58,7 +72,8 @@ public class FilmResourceIT {
     public static Film createEntity(EntityManager em) {
         Film film = new Film()
             .title(DEFAULT_TITLE)
-            .description(DEFAULT_DESCRIPTION);
+            .description(DEFAULT_DESCRIPTION)
+            .releaseDate(DEFAULT_RELEASE_DATE);
         return film;
     }
     /**
@@ -70,7 +85,8 @@ public class FilmResourceIT {
     public static Film createUpdatedEntity(EntityManager em) {
         Film film = new Film()
             .title(UPDATED_TITLE)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .releaseDate(UPDATED_RELEASE_DATE);
         return film;
     }
 
@@ -85,9 +101,10 @@ public class FilmResourceIT {
         int databaseSizeBeforeCreate = filmRepository.findAll().size();
 
         // Create the Film
+        FilmDTO filmDTO = filmMapper.toDto(film);
         restFilmMockMvc.perform(post("/api/films").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(film)))
+            .content(TestUtil.convertObjectToJsonBytes(filmDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Film in the database
@@ -96,6 +113,7 @@ public class FilmResourceIT {
         Film testFilm = filmList.get(filmList.size() - 1);
         assertThat(testFilm.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testFilm.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testFilm.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
     }
 
     @Test
@@ -105,11 +123,12 @@ public class FilmResourceIT {
 
         // Create the Film with an existing ID
         film.setId(1L);
+        FilmDTO filmDTO = filmMapper.toDto(film);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restFilmMockMvc.perform(post("/api/films").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(film)))
+            .content(TestUtil.convertObjectToJsonBytes(filmDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Film in the database
@@ -130,7 +149,8 @@ public class FilmResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(film.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(DEFAULT_RELEASE_DATE.toString())));
     }
     
     @Test
@@ -145,7 +165,8 @@ public class FilmResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(film.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.releaseDate").value(DEFAULT_RELEASE_DATE.toString()));
     }
 
     @Test
@@ -170,11 +191,13 @@ public class FilmResourceIT {
         em.detach(updatedFilm);
         updatedFilm
             .title(UPDATED_TITLE)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .releaseDate(UPDATED_RELEASE_DATE);
+        FilmDTO filmDTO = filmMapper.toDto(updatedFilm);
 
         restFilmMockMvc.perform(put("/api/films").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedFilm)))
+            .content(TestUtil.convertObjectToJsonBytes(filmDTO)))
             .andExpect(status().isOk());
 
         // Validate the Film in the database
@@ -183,6 +206,7 @@ public class FilmResourceIT {
         Film testFilm = filmList.get(filmList.size() - 1);
         assertThat(testFilm.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testFilm.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testFilm.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
     }
 
     @Test
@@ -191,11 +215,12 @@ public class FilmResourceIT {
         int databaseSizeBeforeUpdate = filmRepository.findAll().size();
 
         // Create the Film
+        FilmDTO filmDTO = filmMapper.toDto(film);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFilmMockMvc.perform(put("/api/films").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(film)))
+            .content(TestUtil.convertObjectToJsonBytes(filmDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Film in the database

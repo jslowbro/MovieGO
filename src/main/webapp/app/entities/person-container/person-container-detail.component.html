@@ -14,14 +14,14 @@
                 </dd>
                 <dt><span>Person</span></dt>
                 <dd>
-                    <div *ngIf="personContainer.person">
-                        <a [routerLink]="['/person', personContainer.person?.id, 'view']">{{ personContainer.person?.id }}</a>
+                    <div *ngIf="personContainer.personId">
+                        <a [routerLink]="['/person', personContainer.personId, 'view']">{{ personContainer.personId }}</a>
                     </div>
                 </dd>
                 <dt><span>Film</span></dt>
                 <dd>
-                    <div *ngIf="personContainer.film">
-                        <a [routerLink]="['/film', personContainer.film?.id, 'view']">{{ personContainer.film?.id }}</a>
+                    <div *ngIf="personContainer.filmId">
+                        <a [routerLink]="['/film', personContainer.filmId, 'view']">{{ personContainer.filmId }}</a>
                     </div>
                 </dd>
             </dl>

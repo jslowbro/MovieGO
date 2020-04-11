@@ -1,13 +1,11 @@
-import { IReview } from 'app/shared/model/review.model';
-import { IUser } from 'app/core/user/user.model';
-
 export interface IComment {
   id?: number;
   text?: string;
-  review?: IReview;
-  user?: IUser;
+  reviewId?: number;
+  userLogin?: string;
+  userId?: number;
 }
 
 export class Comment implements IComment {
-  constructor(public id?: number, public text?: string, public review?: IReview, public user?: IUser) {}
+  constructor(public id?: number, public text?: string, public reviewId?: number, public userLogin?: string, public userId?: number) {}
 }

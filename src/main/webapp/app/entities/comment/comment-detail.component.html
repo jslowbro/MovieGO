@@ -14,13 +14,13 @@
                 </dd>
                 <dt><span>Review</span></dt>
                 <dd>
-                    <div *ngIf="comment.review">
-                        <a [routerLink]="['/review', comment.review?.id, 'view']">{{ comment.review?.id }}</a>
+                    <div *ngIf="comment.reviewId">
+                        <a [routerLink]="['/review', comment.reviewId, 'view']">{{ comment.reviewId }}</a>
                     </div>
                 </dd>
                 <dt><span>User</span></dt>
                 <dd>
-                    {{ comment.user?.login }}
+                    {{ comment.userLogin }}
                 </dd>
             </dl>
 

@@ -34,13 +34,13 @@
                     <td><a [routerLink]="['/person-container', personContainer.id, 'view']">{{ personContainer.id }}</a></td>
                     <td>{{ personContainer.role }}</td>
                     <td>
-                        <div *ngIf="personContainer.person">
-                            <a [routerLink]="['/person', personContainer.person?.id, 'view']" >{{ personContainer.person?.id }}</a>
+                        <div *ngIf="personContainer.personId">
+                            <a [routerLink]="['/person', personContainer.personId , 'view']" >{{ personContainer.personId }}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="personContainer.film">
-                            <a [routerLink]="['/film', personContainer.film?.id, 'view']" >{{ personContainer.film?.id }}</a>
+                        <div *ngIf="personContainer.filmId">
+                            <a [routerLink]="['/film', personContainer.filmId , 'view']" >{{ personContainer.filmId }}</a>
                         </div>
                     </td>
                     <td class="text-right">

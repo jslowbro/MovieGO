@@ -34,12 +34,12 @@
                     <td><a [routerLink]="['/rating', rating.id, 'view']">{{ rating.id }}</a></td>
                     <td>{{ rating.value }}</td>
                     <td>
-                        <div *ngIf="rating.film">
-                            <a [routerLink]="['/film', rating.film?.id, 'view']" >{{ rating.film?.id }}</a>
+                        <div *ngIf="rating.filmId">
+                            <a [routerLink]="['/film', rating.filmId , 'view']" >{{ rating.filmId }}</a>
                         </div>
                     </td>
                     <td>
-                        {{ rating.user?.login }}
+                        {{ rating.userLogin }}
                     </td>
                     <td class="text-right">
                         <div class="btn-group">

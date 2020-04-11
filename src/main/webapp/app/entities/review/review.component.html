@@ -36,12 +36,12 @@
                     <td>{{ review.text }}</td>
                     <td>{{ review.value }}</td>
                     <td>
-                        <div *ngIf="review.film">
-                            <a [routerLink]="['/film', review.film?.id, 'view']" >{{ review.film?.id }}</a>
+                        <div *ngIf="review.filmId">
+                            <a [routerLink]="['/film', review.filmId , 'view']" >{{ review.filmId }}</a>
                         </div>
                     </td>
                     <td>
-                        {{ review.user?.login }}
+                        {{ review.userLogin }}
                     </td>
                     <td class="text-right">
                         <div class="btn-group">
